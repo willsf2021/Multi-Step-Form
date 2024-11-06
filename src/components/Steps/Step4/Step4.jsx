@@ -5,7 +5,7 @@ import {
   StyledServices,
 } from "./Step4.style";
 
-export const Step4 = ({ isYearly, form }) => {
+export const Step4 = ({ isYearly, form, pricePlans }) => {
   return (
     <StyledStep>
       <StyledPricesContainer>
@@ -14,7 +14,9 @@ export const Step4 = ({ isYearly, form }) => {
             Arcade {!isYearly ? "(Monthly)" : "(Yearly)"}
             <a href="">Change</a>
           </p>
-          <p>$9/{!isYearly ? "mo" : "yr"}</p>
+          <p>
+            ${pricePlans.arcade}/{!isYearly ? "mo" : "yr"}
+          </p>
           <hr />
         </StyledCurrentPlan>
         <StyledServices>

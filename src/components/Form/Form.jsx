@@ -27,21 +27,36 @@ export const Form = ({ currentStep }) => {
     largerStorage: 2,
     customProfile: 2,
   });
-
-  const [control, setControl] = useState(false);
+  const [pricePlans, setPricePlans] = useState({
+    arcade: [9, false],
+    advanced: [12, false],
+    pro: [15, false],
+  });
 
   useEffect(() => {
-    isYearly
-      ? setPriceServices({
-          onlineService: 10,
-          largerStorage: 20,
-          customProfile: 20,
-        })
-      : setPriceServices({
-          onlineService: 1,
-          largerStorage: 2,
-          customProfile: 2,
+    if (isYearly) {
+      setPriceServices({
+        onlineService: 10,
+        largerStorage: 20,
+        customProfile: 20,
+      }),
+        setPricePlans({
+          arcade: [90, false],
+          advanced: [120, false],
+          pro: [150, false],
         });
+    } else {
+      setPriceServices({
+        onlineService: 1,
+        largerStorage: 2,
+        customProfile: 2,
+      });
+      setPricePlans({
+        arcade: [9, false],
+        advanced: [12, false],
+        pro: [15, false],
+      });
+    }
   }, [isYearly]);
 
   // Como controlar e passar os valores de planos, opções de prazo e serviços adicionais para o objeto?
@@ -64,11 +79,11 @@ export const Form = ({ currentStep }) => {
         return (
           <Step2
             form={form}
-            setForm={setForm}
             isYearly={isYearly}
+            pricePlans={pricePlans}
+            setPricePlans={setPricePlans}
+            setForm={setForm}
             setIsYearly={setIsYearly}
-            priceServices={priceServices}
-            setPriceServices={setPriceServices}
           />
         );
       case 3:
@@ -80,7 +95,6 @@ export const Form = ({ currentStep }) => {
             setIsYearly={setIsYearly}
             priceServices={priceServices}
             setPriceServices={setPriceServices}
-            setControl={setControl}
           />
         );
       case 4:
@@ -91,6 +105,7 @@ export const Form = ({ currentStep }) => {
             isYearly={isYearly}
             setIsYearly={setIsYearly}
             priceServices={priceServices}
+            pricePlans={pricePlans}
           />
         );
     }

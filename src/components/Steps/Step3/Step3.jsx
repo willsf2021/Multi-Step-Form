@@ -3,7 +3,7 @@ import { Title } from "../../Title/Title";
 import { Paragraph } from "../../Paragraph/Paragraph";
 import { useEffect, useState } from "react";
 
-export const Step3 = ({ setForm, isYearly, priceServices, setControl }) => {
+export const Step3 = ({ setForm, isYearly, priceServices }) => {
   return (
     <StyledStep>
       <Title contentTitle="Pick add-ons" />
