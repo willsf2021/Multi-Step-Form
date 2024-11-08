@@ -11,7 +11,7 @@ export const Form = ({ currentStep }) => {
     email: "",
     phone: undefined,
     totalPrice: 0,
-    plan: "arcade",
+    plans: { planArcade: false, planAdvanced: false, planPro: false },
     billing: "monthly",
     addOns: {
       onlineService: false,
@@ -28,9 +28,9 @@ export const Form = ({ currentStep }) => {
     customProfile: 2,
   });
   const [pricePlans, setPricePlans] = useState({
-    arcade: [9, false],
-    advanced: [12, false],
-    pro: [15, false],
+    arcade: 9,
+    advanced: 12,
+    pro: 15,
   });
 
   useEffect(() => {
@@ -41,9 +41,9 @@ export const Form = ({ currentStep }) => {
         customProfile: 20,
       }),
         setPricePlans({
-          arcade: [90, false],
-          advanced: [120, false],
-          pro: [150, false],
+          planArcade: 90,
+          planAdvanced: 120,
+          planPro: 150,
         });
     } else {
       setPriceServices({
@@ -52,9 +52,9 @@ export const Form = ({ currentStep }) => {
         customProfile: 2,
       });
       setPricePlans({
-        arcade: [9, false],
-        advanced: [12, false],
-        pro: [15, false],
+        planArcade: 9,
+        planAdvanced: 12,
+        planPro: 15,
       });
     }
   }, [isYearly]);

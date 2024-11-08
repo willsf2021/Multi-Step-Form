@@ -18,6 +18,29 @@ export const Step2 = ({
   setPricePlans,
   setForm,
 }) => {
+  function handlePlan(e) {
+    const { id } = e.target;
+
+    setForm((prevForm) => {
+      const newPlanStatus = !prevForm.plans[id];
+      const newTotalPrice = newPlanStatus
+        ? prevForm.totalPrice + pricePlans[id]
+        : prevForm.totalPrice - pricePlans[id];
+
+      return {
+        ...prevForm,
+        totalPrice: newTotalPrice,
+        plans: {
+          ...Object.keys(prevForm.plans).reduce((acc, key) => {
+            acc[key] = false;
+            return acc;
+          }, {}),
+          [id]: true,
+        },
+      };
+    });
+  }
+
   return (
     <StyledStep>
       <Title contentTitle="Select your plan" />
@@ -27,28 +50,19 @@ export const Step2 = ({
           <input
             type="radio"
             name="plan"
-            value={"arcade"}
-            onChange={() => {
-              setForm((prevForm) => {
-                const newTotalPrice =
-                  prevForm.totalPrice + pricePlans.arcade[0];
-                return {
-                  ...prevForm,
-                  totalPrice: newTotalPrice,
-                };
-              });
-            }}
+            id="planArcade"
+            onChange={handlePlan}
           />
           <img src={iconArcade} alt="" />
           <aside>
             <h3>Arcade</h3>
             {isYearly ? (
               <>
-                <p>${pricePlans.arcade[0]}/yr</p>{" "}
+                <p>${pricePlans.planArcade}/yr</p>{" "}
                 <p className="monthsFree">2 months free</p>
               </>
             ) : (
-              <p>${pricePlans.arcade[0]}/mo</p>
+              <p>${pricePlans.planArcade}/mo</p>
             )}
           </aside>
         </div>
@@ -56,56 +70,34 @@ export const Step2 = ({
           <input
             type="radio"
             name="plan"
-            value={"advanced"}
-            onChange={() => {
-              setForm((prevForm) => {
-                const newTotalPrice =
-                  prevForm.totalPrice + pricePlans.advanced[0];
-                return {
-                  ...prevForm,
-                  totalPrice: newTotalPrice,
-                };
-              });
-            }}
+            id="planAdvanced"
+            onChange={handlePlan}
           />
           <img src={iconAdvanced} alt="" />
           <aside>
             <h3>Advanced</h3>
             {isYearly ? (
               <>
-                <p>${pricePlans.advanced[0]}/yr</p>{" "}
+                <p>${pricePlans.planAdvanced}/yr</p>{" "}
                 <p className="monthsFree">2 months free</p>
               </>
             ) : (
-              <p>${pricePlans.advanced[0]}/mo</p>
+              <p>${pricePlans.planAdvanced}/mo</p>
             )}
           </aside>
         </div>
         <div className="inputIconContainer">
-          <input
-            type="radio"
-            name="plan"
-            value={"pro"}
-            onChange={() => {
-              setForm((prevForm) => {
-                const newTotalPrice = prevForm.totalPrice + pricePlans.pro[0];
-                return {
-                  ...prevForm,
-                  totalPrice: newTotalPrice,
-                };
-              });
-            }}
-          />
+          <input type="radio" name="plan" id="planPro" onChange={handlePlan} />
           <img src={iconPro} alt="" />
           <aside>
             <h3>Pro</h3>
             {isYearly ? (
               <>
-                <p>${pricePlans.pro[0]}/yr</p>{" "}
+                <p>${pricePlans.planPro}/yr</p>{" "}
                 <p className="monthsFree">2 months free</p>
               </>
             ) : (
-              <p>${pricePlans.pro[0]}/mo</p>
+              <p>${pricePlans.planPro}/mo</p>
             )}
           </aside>
         </div>

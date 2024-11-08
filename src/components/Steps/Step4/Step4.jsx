@@ -11,7 +11,11 @@ export const Step4 = ({ isYearly, form, pricePlans }) => {
       <StyledPricesContainer>
         <StyledCurrentPlan>
           <p>
-            Arcade {!isYearly ? "(Monthly)" : "(Yearly)"}
+            {Object.entries(form.plans)
+              .filter(([key, value]) => value === true)
+              .map(([key, value]) => key.replace("plan", ""))
+              .join(", ")}{" "}
+            {!isYearly ? "(Monthly)" : "(Yearly)"}
             <a href="">Change</a>
           </p>
           <p>
