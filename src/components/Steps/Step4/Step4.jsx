@@ -5,43 +5,62 @@ import {
   StyledServices,
 } from "./Step4.style";
 
-export const Step4 = ({ isYearly, form, pricePlans }) => {
+export const Step4 = ({ form, planPrices }) => {
   return (
     <StyledStep>
       <StyledPricesContainer>
         <StyledCurrentPlan>
           <p>
-            {Object.entries(form.plans)
-              .filter(([key, value]) => value === true)
-              .map(([key, value]) => key.replace("plan", ""))
-              .join(", ")}{" "}
-            {!isYearly ? "(Monthly)" : "(Yearly)"}
+            {form.plan} ({form.billing})
             <a href="">Change</a>
           </p>
           <p>
-            ${pricePlans.arcade}/{!isYearly ? "mo" : "yr"}
+            ${planPrices[form.plan] * (form.billing == "monthly" ? 1 : 10)}/{form.billing == "monthly" ? "mo" : "yr"}
           </p>
           <hr />
         </StyledCurrentPlan>
         <StyledServices>
-          <div>
-            <p>Online service</p>
-            <p>+$1/{!isYearly ? "mo" : "yr"}</p>
-          </div>
-          <div>
-            <p>Larger storage</p>
-            <p>+$2/{!isYearly ? "mo" : "yr"}</p>
-          </div>
+          {compileAddonList(form)}
         </StyledServices>
       </StyledPricesContainer>
       <div>
         <div>
-          <p>Total (per {!isYearly ? "month" : "year"})</p>
+          <p>Total (per {form.billing == "monthly" ? "month" : "year"})</p>
           <p>
-            ${form.totalPrice}/{!isYearly ? "mo" : "yr"}
+            ${form.totalPrice}/{form.billing == "month" ? "mo" : "yr"}
           </p>
         </div>
       </div>
     </StyledStep>
   );
 };
+
+/**
+ * 
+ * @param {*} addon addon key
+ * @returns Formatted addon name
+ */
+function getAddonName(addon) {
+  switch (addon) {
+    case "onlineService": return "Online Service";
+    case "largerStorage": return "Larger Storage";
+    case "customProfile": return "Custom Profile";
+    default: return "Error: Addon not found"
+  }
+}
+
+/**
+ * 
+ * @param {*} form form object
+ * @returns a list of divs containing addon data
+ */
+function compileAddonList(form) {
+  return Object.entries(form.addons)
+  .filter(([_, enabled]) => enabled) // Filter out only enabled add-ons
+  .map(([addon]) => (
+    <div key={addon}>
+      <p>{getAddonName(addon)}</p>
+      <p>+${form.addonPrices[addon]}/{form.billing === "monthly" ? "mo" : "yr"}</p>
+    </div>
+  ))
+}
