@@ -3,7 +3,25 @@ import { Title } from "../../Title/Title";
 import { Paragraph } from "../../Paragraph/Paragraph";
 import { useEffect, useState } from "react";
 
-export const Step3 = ({ setForm, isYearly, priceServices }) => {
+export const Step3 = ({ addons, setAddons, billing, addonPrices }) => {
+
+
+  /**
+   * Called when a radio checkbox is toggled
+   * Handle checkbox changes dynamically.
+   */ 
+  const onServiceChecked = (e) => {
+    const { name, value } = e.target;
+    setAddons((prevAddons) => {
+      return {
+        ...prevAddons,
+        [name]: value == "on" ? true : false,
+      }
+    })
+  }
+
+
+
   return (
     <StyledStep>
       <Title contentTitle="Pick add-ons" />
@@ -14,23 +32,7 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <input
               type="checkbox"
               name="onlineService"
-              onChange={() => {
-                setForm((prevForm) => {
-                  const newAddOnStatus = !prevForm.addOns.onlineService;
-                  const newTotalPrice = newAddOnStatus
-                    ? prevForm.totalPrice + priceServices.onlineService
-                    : prevForm.totalPrice - priceServices.onlineService;
-
-                  return {
-                    ...prevForm,
-                    addOns: {
-                      ...prevForm.addOns,
-                      onlineService: newAddOnStatus,
-                    },
-                    totalPrice: newTotalPrice,
-                  };
-                });
-              }}
+              onChange={onServiceChecked}
             />
             <span className="checkboxPersonalized"></span>
           </div>
@@ -39,8 +41,8 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <p>Acces to multiplayer games</p>
           </aside>
           <p className="priceAside">
-            +${priceServices.onlineService}
-            {!isYearly ? "/mo" : "/yr"}
+            +${addonPrices.onlineService}
+            {billing == "month" ? "/mo" : "/yr"}
           </p>
         </div>
         <div className="inputTextContainer">
@@ -48,23 +50,7 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <input
               type="checkbox"
               name="largerStorage"
-              onChange={() => {
-                setForm((prevForm) => {
-                  const newAddOnStatus = !prevForm.addOns.largerStorage;
-                  const newTotalPrice = newAddOnStatus
-                    ? prevForm.totalPrice + priceServices.largerStorage
-                    : prevForm.totalPrice - priceServices.largerStorage;
-
-                  return {
-                    ...prevForm,
-                    addOns: {
-                      ...prevForm.addOns,
-                      largerStorage: newAddOnStatus,
-                    },
-                    totalPrice: newTotalPrice,
-                  };
-                });
-              }}
+              onChange={onServiceChecked}
             />
             <span className="checkboxPersonalized"></span>
           </div>
@@ -73,8 +59,8 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <p>Extra 1TB of cloud save</p>
           </aside>
           <p className="priceAside">
-            +${priceServices.largerStorage}
-            {!isYearly ? "/mo" : "/yr"}
+            +${addonPrices.largerStorage}
+            {billing == "month" ? "/mo" : "/yr"}
           </p>
         </div>
         <div className="inputTextContainer">
@@ -82,22 +68,7 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <input
               type="checkbox"
               name="customProfile"
-              onChange={() => {
-                setForm((prevForm) => {
-                  const newAddOnStatus = !prevForm.addOns.customProfile;
-                  const newTotalPrice = newAddOnStatus
-                    ? prevForm.totalPrice + priceServices.customProfile
-                    : prevForm.totalPrice - priceServices.customProfile;
-                  return {
-                    ...prevForm,
-                    addOns: {
-                      ...prevForm.addOns,
-                      customProfile: newAddOnStatus,
-                    },
-                    totalPrice: newTotalPrice,
-                  };
-                });
-              }}
+              onChange={onServiceChecked}
             />
             <span className="checkboxPersonalized"></span>
           </div>
@@ -106,8 +77,8 @@ export const Step3 = ({ setForm, isYearly, priceServices }) => {
             <p>Custom theme on your profile</p>
           </aside>
           <p className="priceAside">
-            +${priceServices.customProfile}
-            {!isYearly ? "/mo" : "/yr"}
+            +${addonPrices.customProfile}
+            {billing == "month" ? "/mo" : "/yr"}
           </p>
         </div>
       </StyledServicesContainer>
